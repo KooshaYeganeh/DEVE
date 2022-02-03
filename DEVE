@@ -98,6 +98,54 @@ sub mariadb{
 
 
 
+sub samba{
+
+	@samba_arr = qx/sudo iptables -nvL --line-numbers/;
+	@samba_service = qx/sudo systemctl list-units --type service/;
+	@samba = grep(/smb/,@samba_service);
+	@port_137 = grep(/137/,@samba_arr);
+	@port_138 = grep(/138/,@samba_arr);
+	@port_139 = grep(/139/,@samba_arr);
+	@port_140 = grep(/140/,@samba_arr);
+	if (@samba){
+		if (@port_137 or @port_138 or @port_139 or @port_140){
+			print("Rules For Samba Server is [OK]\n");
+		}else{
+			print("No Rule Set For Samba\n");
+			ERROR("Yor Are Not Set Rule for Samba server
+			       connections");
+	       }
+
+	}else{
+		print("Samba Service is Not Loaded\n");
+	}
+}
+
+
+
+sub ldap{
+
+	@ldap_arr = qx/sudo iptables -nvL --line-numbers/;
+	@ldap_service = qx/sudo systemctl list-units --type service/;
+	@ldap = grep(/slapd/,@maria_service);
+	@port_636 = grep(/636/,@maria_arr);
+	if (@ldap){
+		if (@port_636){
+			print("Rules For LDAP Server is [OK]\n");
+		}else{
+			print("No Rule Set For mariadb\n");
+			ERROR("Yor Are Not Set Rule for  LDAPserver
+			       connections");
+	       }
+
+	}else{
+		print("Mariadb Service is Not Loaded\n");
+	}
+}
+
+
+
+
 
 sub menu{
 
