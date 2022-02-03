@@ -161,6 +161,8 @@ sub menu{
 		mariadb();
 		ssh();
 		webserver();
+		samba();
+		ldap();
 	}
 	elsif($res == 3){
 		exit 1;
